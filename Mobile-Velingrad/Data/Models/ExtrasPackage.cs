@@ -1,7 +1,11 @@
-﻿namespace Mobile_Velingrad.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Mobile_Velingrad.Data.Models
 {
     public class ExtrasPackage
     {
+        [Key]
         public int Id { get; set; }
 
         public bool HasDVD { get; set; }
@@ -24,6 +28,7 @@
 
         public bool HasElectricWindows { get; set; }
 
+        [ForeignKey(nameof(Vehicle))]
         public int VehicleId { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }

@@ -9,8 +9,10 @@ namespace Mobile_Velingrad.Data.Models
             this.Models = new HashSet<Model>();
         }
 
+        [Key]
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
