@@ -52,6 +52,14 @@ namespace Mobile_Velingrad.Data
             {
                 entity.HasOne(e => e.Vehicle).WithOne(p => p.ExtrasPackage).OnDelete(DeleteBehavior.Restrict);
             });
+
+            builder.Entity<User>(option =>
+            {
+                option
+                .HasIndex(x => x.NationalId)
+                .IsUnique();
+            });
+            base.OnModelCreating(builder);
         }
     }
 }

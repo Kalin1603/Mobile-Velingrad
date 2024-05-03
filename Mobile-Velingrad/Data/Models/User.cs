@@ -8,6 +8,7 @@ namespace Mobile_Velingrad.Data.Models
         public User()
         {
             EmailConfirmed = true;
+            this.Vehicles = new HashSet<Vehicle>();
         }
 
         [Required]
@@ -29,5 +30,7 @@ namespace Mobile_Velingrad.Data.Models
         public string NationalId { get; set; }
 
         public string Address { get; set; }
+
+        public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
 }
