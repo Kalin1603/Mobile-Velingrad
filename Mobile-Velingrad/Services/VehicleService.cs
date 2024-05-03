@@ -14,9 +14,129 @@ namespace Mobile_Velingrad.Services
             this.appDbContext = appDbContext;
         }
 
-        public Task CreateAsync(VehicleInputViewModel inputModel)
+        public async Task CreateAsync(VehicleInputViewModel inputModel)
         {
-            throw new NotImplementedException();
+            bool isInvalid = string.IsNullOrWhiteSpace(inputModel.Brand) || string.IsNullOrWhiteSpace(inputModel.Model) || string.IsNullOrWhiteSpace(inputModel.City) || string.IsNullOrWhiteSpace(inputModel.Country);
+
+            if (isInvalid)
+            {
+                throw new ArgumentException("Invalid vehicle data!");
+            }
+
+            var brand = await this.appDbContext.Brands.FirstOrDefaultAsync(b => b.Name == inputModel.Brand);
+
+            if (brand == null)
+            {
+                brand = new Brand()
+                {
+                    Name = inputModel.Brand
+                };
+            }
+
+            var model = await this.appDbContext.Models.FirstOrDefaultAsync(m => m.Name == inputModel.Model && m.Brand.Name == inputModel.Brand);
+
+            if (model == null)
+            {
+                model = new Model()
+                {
+                    Name = inputModel.Model,
+                    Brand = brand
+                };
+            }
+
+            var engineType = await this.appDbContext.EngineTypes.FirstOrDefaultAsync(et => et.Name == inputModel.EngineType);
+
+            if (engineType == null)
+            {
+                engineType = new EngineType()
+                {
+                    Name = inputModel.EngineType
+                };
+            }
+
+            var engine = await this.appDbContext.Engines.FirstOrDefaultAsync(e => e.HorsePower == inputModel.HorsePower && e.Volume == inputModel.EngineVolume && e.EngineType.Name == inputModel.EngineType);
+
+            if (engine == null)
+            {
+                engine = new Engine()
+                {
+                    HorsePower = inputModel.HorsePower,
+                    Volume = inputModel.EngineVolume,
+                    EngineType = engineType
+                };
+            }
+
+            var country = await this.appDbContext.Countries.FirstOrDefaultAsync(c => c.Name == inputModel.Country);
+
+            if (country == null)
+            {
+                country = new Country()
+                {
+                    Name = inputModel.Country
+                };
+            }
+
+            var city = await this.appDbContext.Cities.FirstOrDefaultAsync(c => c.Name == inputModel.City && c.Country.Name == inputModel.Country);
+
+            if (city == null)
+            {
+                city = new City()
+                {
+                    Name = inputModel.City,
+                    Country = country,
+                    ZipCode = inputModel.ZipCode
+                };
+            }
+
+            var color = await this.appDbContext.Colors.FirstOrDefaultAsync(c => c.Name == inputModel.Color);
+
+            if (color == null)
+            {
+                color = new Color()
+                {
+                    Name = inputModel.Color
+                };
+            }
+
+            var extrasPackage = new ExtrasPackage()
+            {
+                HasABS = inputModel.HasABS,
+                HasAllWheelDriveSystem = inputModel.HasAllWheelDriverSystem,
+                HasCentralLock = inputModel.HasCentralLock,
+                HasClimatronic = inputModel.HasClimatronic,
+                HasCruiseControl = inputModel.HasCruiseControl,
+                HasDVD = inputModel.HasDVD,
+                HasElectricWindows = inputModel.HasElectricWindows,
+                HasParkAssist = inputModel.HasParkAssist,
+                HasRadioBluetooth = inputModel.HasRadioBluetooth,
+                HasStabilityControl = inputModel.HasStabilityControl
+            };
+
+            var vehicleType = await this.appDbContext.VehicleTypes.FirstOrDefaultAsync(vt => vt.Name == inputModel.VehicleType);
+
+            if (vehicleType == null)
+            {
+                vehicleType = new VehicleType()
+                {
+                    Name = inputModel.VehicleType
+                };
+            }
+
+            var vehicle = new Vehicle()
+            {
+                Price = inputModel.Price,
+                Run = inputModel.Run,
+                Engine = engine,
+                City = city,
+                Model = model,
+                Color = color,
+                ExtrasPackage = extrasPackage,
+                VehicleType = vehicleType
+            };
+
+           await this.appDbContext.AddAsync(vehicle);
+           await this.appDbContext.SaveChangesAsync();
+           await this.UpdateTags(vehicle.Id);
         }
 
         public async Task<bool> DeleteVehicleAsync(int id)
@@ -35,14 +155,42 @@ namespace Mobile_Velingrad.Services
             return true;
         }
 
-        public Task<TopVehicleViewModel> GetLastAddedVehiclesAsync()
+        public async Task<TopVehicleViewModel> GetLastAddedVehiclesAsync()
         {
-            throw new NotImplementedException();
+            var model = new TopVehicleViewModel();
+
+            model.VehicleViewModels = await this.appDbContext.Vehicles.OrderByDescending(x => x.AdvertDate).Take(6).Select(x => new VehicleViewModel()
+            {
+                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                City = x.City.Name,
+                Color = x.Color.Name,
+                Engine = x.Engine.EngineType.Name,
+                Model = x.Model.Name,
+                Price = x.Price,
+                Run = x.Run,
+                Brand = x.Model.Brand.Name
+            }).ToListAsync();
+
+            return model;
         }
 
-        public Task<TopVehicleViewModel> GetTopExpensiveVehiclesAsync()
+        public async Task<TopVehicleViewModel> GetTopExpensiveVehiclesAsync()
         {
-            throw new NotImplementedException();
+            var model = new TopVehicleViewModel();
+
+            model.VehicleViewModels = await this.appDbContext.Vehicles.OrderByDescending(x => x.Price).Take(6).Select(x => new VehicleViewModel()
+            {
+                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                City = x.City.Name,
+                Color = x.Color.Name,
+                Engine = x.Engine.EngineType.Name,
+                Model = x.Model.Name,
+                Price = x.Price,
+                Run = x.Run,
+                Brand = x.Model.Brand.Name
+            }).ToListAsync();
+
+            return model;
         }
 
         public async Task<VehiclesViewModel> GetVehiclesAsync(int pageNumber = 1)
@@ -60,6 +208,8 @@ namespace Mobile_Velingrad.Services
                 City = x.City.Name,
                 Color = x.Color.Name,
                 Engine = x.Engine.EngineType.Name,
+                ExtrasPackageId = x.ExtrasPackageId,
+                Model = x.Model.Name,
                 Price = x.Price,
                 Run = x.Run,
                 Brand = x.Model.Brand.Name,
@@ -69,14 +219,51 @@ namespace Mobile_Velingrad.Services
             return model;
         }
 
-        public Task<TopVehicleViewModel> SearchByPriceAsync()
+        public async Task<TopVehicleViewModel> SearchByPriceAsync()
         {
-            throw new NotImplementedException();
+            var model = new TopVehicleViewModel();
+
+            model.VehicleViewModels = await this.appDbContext.Vehicles.Where(x => x.Price > 0).OrderBy(x => x.Price).Take(6).Select(x => new VehicleViewModel()
+            {
+                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                City = x.City.Name,
+                Color = x.Color.Name,
+                Engine = x.Engine.EngineType.Name,
+                Model = x.Model.Name,
+                Price = x.Price,
+                Run = x.Run,
+                Brand = x.Model.Brand.Name
+            }).ToListAsync();
+
+            return model;
         }
 
-        public Task<SearchVehiclesViewModel> SearchByPriceAsync(int minPrice, int maxPrice, int pageNumber)
+        public async Task<SearchVehiclesViewModel> SearchByPriceAsync(int minPrice, int maxPrice, int pageNumber)
         {
-            throw new NotImplementedException();
+            var model = new SearchVehiclesViewModel();
+
+            model.ElementsCount = await this.appDbContext.Vehicles.CountAsync();
+            model.PageNumber = pageNumber;
+            model.MinPrice = minPrice;
+            model.MaxPrice = maxPrice;
+
+            model.Vehicles = await this.appDbContext.Vehicles.OrderBy(x => x.Price).Where(x => x.Price >= minPrice && x.Price <= maxPrice).Select(x => new VehicleViewModel()
+            {
+                Id = x.Id,
+                VehicleTypeId = x.VehicleTypeId,
+                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                City = x.City.Name,
+                Color = x.Color.Name,
+                Engine = x.Engine.EngineType.Name,
+                ExtrasPackageId = x.ExtrasPackageId,
+                Model = x.Model.Name,
+                Price = x.Price,
+                Run = x.Run,
+                Brand = x.Model.Brand.Name,
+                Tags = x.Tags.Select(t => t.Tag.Name).ToList()
+            }).Skip(model.ItemsPerPage * (model.PageNumber - 1)).Take(model.ItemsPerPage).ToListAsync();
+
+            return model;
         }
 
         private async Task<Tag> GetOrCreateTag(string tagName)
