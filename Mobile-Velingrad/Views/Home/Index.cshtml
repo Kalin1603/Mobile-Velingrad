@@ -1,8 +1,72 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Mobile_Velingrad.ViewModels.HomeIndexViewModel;
+
+@{
+    ViewData["Title"] = "Mobile Velingrad";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to "@ViewData["Title"]"</h1>
+
+    <h2><i class="fas fa-mobile" style="color:mediumvioletred"></i> +359 89 304 6744</h2>
+    <hr />
+    <div class="jumbotron">
+        <h2 class="display-4">The most expensive cars</h2>
+        <hr />
+        <div class="container">
+            <div class="row mx-auto ">
+                @foreach (var item in Model.TopExpensive.VehicleViewModels)
+                {
+                    <div class="card mx-auto my-1" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Brand: @item.Brand</h5>
+                            <p class="card-text">Model: @item.Model</p>
+                            <p class="card-text">Price: @item.Price</p>
+                            <p class="card-text">Mileage: @item.Run</p>
+                            <p class="card-text">Location: @item.City</p>
+                            <img class="img-thumbnail" src="https://cdn-image.departures.com/sites/default/files/styles/responsive_vertical_964x543/public/1590608960/header-bentley-mulsanne-extended-wheelbase-EXPENSIVECARS0520.jpg?itok=SJNa7doB&timestamp=1590609317" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <hr />
+        <h2 class="display-4">The most cheapest cars</h2>
+        <hr />
+        <div class="container">
+            <div class="row mx-auto ">
+                @foreach (var item in Model.TopCheapest.VehicleViewModels)
+                {
+                    <div class="card mx-auto my-1" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Brand: @item.Brand</h5>
+                            <p class="card-text">Model: @item.Model</p>
+                            <p class="card-text">Price: @item.Price</p>
+                            <p class="card-text">Mileage: @item.Run</p>
+                            <p class="card-text">Location: @item.City</p>
+                            <img class="img-thumbnail" src="https://miro.medium.com/max/1620/1*o9SPb2hIfiUjkWjVaxcGtQ.jpeg" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <hr /><h2 class="display-4">Last added cars</h2>
+        <hr />
+        <div class="container">
+            <div class="row mx-auto ">
+                @foreach (var item in Model.LastAdded.VehicleViewModels)
+                {
+                    <div class="card mx-auto my-1" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Brand: @item.Brand</h5>
+                            <p class="card-text">Model: @item.Model</p>
+                            <p class="card-text">Price: @item.Price</p>
+                            <p class="card-text">Mileage: @item.Run</p>
+                            <p class="card-text">Location: @item.City</p>
+                            <img class="img-thumbnail" src="https://www.tuningblog.eu/wp-content/uploads/2020/08/Getriebetausch-SMG-II-Handschaltung-BMW-E46-M3-CSL-Tuning-3.jpg" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,99 @@
+﻿@model Mobile_Velingrad.ViewModels.SearchVehiclesViewModel;
+
+<h1>Search by price</h1>
+<form action="SearchByPrice" method="get">
+    <div class="form-group">
+        <label>Minimum price</label>
+        <input name="minPrice" type="text" class="form-control">
+        <label>Maximum price</label>
+        <input name="maxPrice" type="text" class="form-control">
+        <button type="submit" class="btn btn-primary mt-2">Търси</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <h3>Filter: minimum price: @Model.MinPrice, maximum price: @Model.MaxPrice</h3>
+    <table class="table table-bordered table-hover text-center">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Price</th>
+                <th>AdvertDate</th>
+                <th>Mileage</th>
+                <th>Location</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Vehicles)
+            {
+                <tr>
+                    <td>@item.Brand</td>
+                    <td>@item.Model</td>
+                    <td>@item.Price</td>
+                    <td>@item.AdvertDate</td>
+                    <td>@item.Run</td>
+                    <td>@item.City</td>
+                    <td>@string.Join(", ", item.Tags)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text> }">
+                @{
+                    var previoussPage = new Dictionary<string, string>
+            {
+            { "minPrice", Model.MinPrice.ToString() },
+            { "maxPrice", Model.MaxPrice.ToString() },
+            { "page", Model.PreviousPageNumber.ToString() }
+            };
+                }
+                <a class="page-link" asp-action="SearchByPrice" asp-all-route-data="previoussPage">
+                    <i class="fas fa-caret-left"></i>
+                </a>
+            </li>
+
+            @for (int i = Model.PageNumber - 2; i < Model.PageNumber; i++)
+            {
+                if (i > 0)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="SearchByPrice" asp-route-page="@i">@i</a></li>
+                }
+            }
+
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">
+                    @Model.PageNumber
+                    <span class="sr-only">(current)</span>
+                </span>
+            </li>
+
+            @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 2; i++)
+            {
+                if (i <= Model.PagesCount)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="SearchByPrice" asp-route-page="@i">@i</a></li>
+                }
+            }
+
+            <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }">
+                @{
+                    var nextPage = new Dictionary<string, string>
+            {
+            { "minPrice", Model.MinPrice.ToString() },
+            { "maxPrice", Model.MaxPrice.ToString() },
+            { "page", Model.NextPageNumber.ToString() }
+            };
+                }
+                <a class="page-link" asp-action="SearchByPrice" asp-all-route-data="nextPage">
+                    <i class="fas fa-caret-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

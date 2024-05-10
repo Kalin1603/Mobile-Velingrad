@@ -14,19 +14,19 @@ namespace Mobile_Velingrad.Data.Models
         [Required]
         [MaxLength(30)]
         [MinLength(3)]
-        [Display(Name = "Име")]
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
 
         [Required]
         [MaxLength(30)]
         [MinLength(3)]
-        [Display(Name = "Фамилия")]
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
 
         [Required]
         [MaxLength(10)]
         [MinLength(0)]
-        [Display(Name = "Единен граждански номер")]
+        [Display(Name = "Identification number")]
         public string NationalId { get; set; }
 
         public string Address { get; set; }
