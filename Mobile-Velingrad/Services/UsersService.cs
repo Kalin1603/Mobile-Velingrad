@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mobile_Velingrad.Data;
 using Mobile_Velingrad.Data.Models;
@@ -43,22 +44,34 @@ namespace Mobile_Velingrad.Services
             }
         }
 
-        public async Task DeleteUserAsync(string id)
+        public async Task<bool> DeleteUserAsync(string id)
         {
             var user = await this.context.Users.FindAsync(id);
             if (user != null)
             {
-                await this.userManager.DeleteAsync(user);
+                var result = await this.userManager.DeleteAsync(user);
+                return result.Succeeded;
             }
             else
             {
-                throw new ArgumentException("User not found");
+                throw new ArgumentException($"User with ID {id} not found");
             }
         }
 
-        public Task EditUserAsync(EditUserViewModel model)
+        public async Task EditUserAsync(EditUserViewModel model)
         {
-            throw new NotImplementedException();
+            var user = await this.context.Users.FindAsync(model.Id);
+            if (user == null)
+            {
+                throw new ArgumentException("User not found!");
+            }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Address = model.Address;
+
+            this.context.Users.Update(user);
+            await context.SaveChangesAsync();
         }
 
         public async Task<DetailsUserViewModel> GetUserDetailsAsync(string id)

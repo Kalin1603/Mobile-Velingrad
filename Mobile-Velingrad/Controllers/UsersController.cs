@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Mobile_Velingrad.Models;
 using Mobile_Velingrad.Services;
 using Mobile_Velingrad.ViewModels.Users;
 
@@ -20,7 +22,7 @@ namespace Mobile_Velingrad.Controllers
                 PageNumber = page,
                 ItemsPerPage = itemsPerPage
             };
-            IndexUsersViewModel newModel = await userService.GetUsersAsync(model);
+            var newModel = await userService.GetUsersAsync(model);
             return View(newModel);
         }
 
@@ -49,6 +51,13 @@ namespace Mobile_Velingrad.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = await userService.GetUserToEditAsync(id);
+            return View(model);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (!ModelState.IsValid)
@@ -57,6 +66,26 @@ namespace Mobile_Velingrad.Controllers
             }
             await userService.EditUserAsync(model);
             return RedirectToAction(nameof (this.Index));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                bool deleted = await userService.DeleteUserAsync(id);
+                if (!deleted)
+                {
+                    return View("Error", new ErrorViewModel { Message = "Failed to delete the user." });
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return View("Error", new ErrorViewModel { Message = ex.Message });
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]

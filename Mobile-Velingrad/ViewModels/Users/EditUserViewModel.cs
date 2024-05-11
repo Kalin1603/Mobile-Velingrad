@@ -7,17 +7,17 @@ namespace Mobile_Velingrad.ViewModels.Users
         public string Id { get; set; }
 
         [Required]
-        [Display(Name = "Име")]
+        [Display(Name = "First name")]
         [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Фамилия")]
+        [Display(Name = "Last name")]
         [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Адрес")]
+        [Display(Name = "Address")]
         [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string Address { get; set; }
     }
