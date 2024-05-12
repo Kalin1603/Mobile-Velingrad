@@ -17,5 +17,7 @@ namespace Mobile_Velingrad.Services
         Task<SearchVehiclesViewModel> SearchByPriceAsync(int minPrice, int maxPrice, int pageNumber);
 
         Task<bool> DeleteVehicleAsync(int id);
+
+        Task ImportVehiclesFromFile(string filePath);
     }
 }

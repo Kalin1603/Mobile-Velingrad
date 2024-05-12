@@ -13,18 +13,18 @@ namespace Mobile_Velingrad.Controllers
             this.vehiclesService = vehiclesService;
         }
 
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var model = vehiclesService.GetVehiclesAsync(page);
+            var model = await vehiclesService.GetVehiclesAsync(page);
             return View(model);
         }
 
 
-        public IActionResult SearchByPrice(int minPrice, int maxPrice, int page = 1)
+        public async Task<IActionResult> SearchByPrice(int minPrice, int maxPrice, int page = 1)
         {
             if (minPrice !=0 && maxPrice != 0)
             {
-                var model = vehiclesService.SearchByPriceAsync(minPrice, maxPrice, page);
+                var model = await vehiclesService.SearchByPriceAsync(minPrice, maxPrice, page);
                 return View(model);
 
             }

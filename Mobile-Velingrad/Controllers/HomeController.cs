@@ -10,21 +10,21 @@ namespace Mobile_Velingrad.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly IVehicleService vehicleService;
+        private readonly IVehicleService _vehicleService;
 
         public HomeController(ILogger<HomeController> logger, IVehicleService vehicleService)
         {
             _logger = logger;
-            this.vehicleService = vehicleService;
+            this._vehicleService = vehicleService;
         }
 
         public async Task<IActionResult> Index()
         {
             HomeIndexViewModel model = new HomeIndexViewModel()
             {
-                TopCheapest = await vehicleService.SearchByPriceAsync(),
-                TopExpensive = await vehicleService.GetTopExpensiveVehiclesAsync(),
-                LastAdded = await vehicleService.GetLastAddedVehiclesAsync()
+                TopCheapest = await _vehicleService.SearchByPriceAsync(),
+                TopExpensive = await _vehicleService.GetTopExpensiveVehiclesAsync(),
+                LastAdded = await _vehicleService.GetLastAddedVehiclesAsync()
             };
 
             return View(model);

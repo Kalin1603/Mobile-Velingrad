@@ -2,6 +2,7 @@
 using Mobile_Velingrad.Data;
 using Mobile_Velingrad.Data.Models;
 using Mobile_Velingrad.ViewModels;
+using Newtonsoft.Json;
 
 namespace Mobile_Velingrad.Services
 {
@@ -101,7 +102,7 @@ namespace Mobile_Velingrad.Services
             var extrasPackage = new ExtrasPackage()
             {
                 HasABS = inputModel.HasABS,
-                HasAllWheelDriveSystem = inputModel.HasAllWheelDriverSystem,
+                HasAllWheelDriveSystem = inputModel.HasAllWheelDriveSystem,
                 HasCentralLock = inputModel.HasCentralLock,
                 HasClimatronic = inputModel.HasClimatronic,
                 HasCruiseControl = inputModel.HasCruiseControl,
@@ -217,6 +218,14 @@ namespace Mobile_Velingrad.Services
             }).Skip(model.ItemsPerPage * (model.PageNumber - 1)).Take(model.ItemsPerPage).ToListAsync();
 
             return model;
+        }
+
+        public async Task ImportVehiclesFromFile(string filePath)
+        {
+            var jsonData = File.ReadAllText(filePath);
+            var vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonData);
+            appDbContext.Vehicles.AddRange(vehicles);
+            await appDbContext.SaveChangesAsync();
         }
 
         public async Task<TopVehicleViewModel> SearchByPriceAsync()

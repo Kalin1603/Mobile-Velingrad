@@ -44,7 +44,10 @@ namespace Mobile_Velingrad.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("DefaultConnection");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
