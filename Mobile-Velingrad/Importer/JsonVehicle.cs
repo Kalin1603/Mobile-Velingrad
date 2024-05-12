@@ -1,12 +1,14 @@
-﻿namespace Mobile_Velingrad.ViewModels
+﻿namespace Mobile_Velingrad.Importer
 {
-    public class VehicleInputViewModel
+    public class JsonVehicle
     {
         public string Brand { get; set; }
 
         public string Model { get; set; }
 
         public string VehicleType { get; set; }
+
+        public int Run { get; set; }
 
         public string EngineType { get; set; }
 
@@ -15,8 +17,6 @@
         public int EngineVolume { get; set; }
 
         public decimal Price { get; set; }
-
-        public int Run { get; set; }
 
         public string City { get; set; }
 
