@@ -132,14 +132,14 @@ namespace Mobile_Velingrad.Services
                 Model = model,
                 Color = color,
                 ExtrasPackage = extrasPackage,
-                VehicleType = vehicleType
+                VehicleType = vehicleType,
+                AdvertDate = inputModel.AdvertDate
             };
 
            await this.appDbContext.AddAsync(vehicle);
            await this.appDbContext.SaveChangesAsync();
            await this.UpdateTags(vehicle.Id);
         }
-
         public async Task<bool> DeleteVehicleAsync(int id)
         {
             var vehicle = await this.appDbContext.Vehicles.FindAsync(id);
@@ -162,7 +162,7 @@ namespace Mobile_Velingrad.Services
 
             model.VehicleViewModels = await this.appDbContext.Vehicles.OrderByDescending(x => x.AdvertDate).Take(6).Select(x => new VehicleViewModel()
             {
-                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                AdvertDate = x.AdvertDate,
                 City = x.City.Name,
                 Color = x.Color.Name,
                 Engine = x.Engine.EngineType.Name,
@@ -181,7 +181,7 @@ namespace Mobile_Velingrad.Services
 
             model.VehicleViewModels = await this.appDbContext.Vehicles.OrderByDescending(x => x.Price).Take(6).Select(x => new VehicleViewModel()
             {
-                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                AdvertDate = x.AdvertDate,
                 City = x.City.Name,
                 Color = x.Color.Name,
                 Engine = x.Engine.EngineType.Name,
@@ -205,7 +205,7 @@ namespace Mobile_Velingrad.Services
             {
                 Id = x.Id,
                 VehicleTypeId = x.VehicleTypeId,
-                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                AdvertDate = x.AdvertDate,
                 City = x.City.Name,
                 Color = x.Color.Name,
                 Engine = x.Engine.EngineType.Name,
@@ -220,21 +220,13 @@ namespace Mobile_Velingrad.Services
             return model;
         }
 
-        public async Task ImportVehiclesFromFile(string filePath)
-        {
-            var jsonData = File.ReadAllText(filePath);
-            var vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonData);
-            appDbContext.Vehicles.AddRange(vehicles);
-            await appDbContext.SaveChangesAsync();
-        }
-
         public async Task<TopVehicleViewModel> SearchByPriceAsync()
         {
             var model = new TopVehicleViewModel();
 
             model.VehicleViewModels = await this.appDbContext.Vehicles.Where(x => x.Price > 0).OrderBy(x => x.Price).Take(6).Select(x => new VehicleViewModel()
             {
-                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                AdvertDate = x.AdvertDate,
                 City = x.City.Name,
                 Color = x.Color.Name,
                 Engine = x.Engine.EngineType.Name,
@@ -260,7 +252,7 @@ namespace Mobile_Velingrad.Services
             {
                 Id = x.Id,
                 VehicleTypeId = x.VehicleTypeId,
-                AdvertDate = x.AdvertDate.ToString("MMMM dd, yyyy"),
+                AdvertDate = x.AdvertDate,
                 City = x.City.Name,
                 Color = x.Color.Name,
                 Engine = x.Engine.EngineType.Name,

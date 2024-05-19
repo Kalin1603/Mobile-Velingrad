@@ -1,4 +1,17 @@
-﻿@model Mobile_Velingrad.ViewModels.VehiclesViewModel;
+﻿@model Mobile_Velingrad.ViewModels.VehiclesViewModel
+
+<h1 class="text-center">Search by price</h1>
+<form asp-action="SearchByPrice" method="get" class="mb-4">
+    <div class="form-group">
+        <label for="minPrice">Minimum price</label>
+        <input type="number" class="form-control" id="minPrice" name="minPrice" />
+    </div>
+    <div class="form-group">
+        <label for="maxPrice">Maximum price</label>
+        <input type="number" class="form-control" id="maxPrice" name="maxPrice" />
+    </div>
+    <button type="submit" class="btn btn-primary">Търси</button>
+</form>
 
 <h1 class="text-center">List of cars</h1>
 <table class="table table-bordered table-hover text-center">
@@ -13,29 +26,27 @@
             <th>Tags</th>
         </tr>
     </thead>
-
     <tbody>
         @foreach (var item in Model.Vehicles)
         {
             <tr>
-                <th>@item.Brand</th>
-                <th>@item.Model</th>
-                <th>@item.Price</th>
-                <th>@item.AdvertDate</th>
-                <th>@item.Run</th>
-                <th>@item.City</th>
-                <th>@string.Join(", ", item.Tags)</th>
+                <td>@item.Brand</td>
+                <td>@item.Model</td>
+                <td>@item.Price</td>
+                <td>@item.AdvertDate.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@item.Run</td>
+                <td>@item.City</td>
+                <td>@string.Join(", ", item.Tags)</td>
             </tr>
         }
     </tbody>
 </table>
 
-<nav aria-label="..." class="">
-    <ul class="pagination  justify-content-center ">
-        <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text> }">
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
             <a class="page-link" asp-action="Index" asp-route-page="@Model.PreviousPageNumber">
                 <i class="fas fa-caret-left"></i>
-
             </a>
         </li>
         @for (int i = Model.PageNumber - 2; i < Model.PageNumber; i++)
@@ -58,8 +69,10 @@
                 <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@i">@i</a></li>
             }
         }
-        <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }">
-            <a class="page-link" asp-action="Index" asp-route-page="@Model.NextPageNumber"><i class="fas fa-caret-right"></i></a>
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link" asp-action="Index" asp-route-page="@Model.NextPageNumber">
+                <i class="fas fa-caret-right"></i>
+            </a>
         </li>
     </ul>
 </nav>

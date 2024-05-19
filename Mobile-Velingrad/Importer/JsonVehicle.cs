@@ -18,9 +18,11 @@
 
         public decimal Price { get; set; }
 
+        public DateTime AdvertDate { get; set; }
+
         public string City { get; set; }
 
-        public int ZipCode { get; set; }
+        public int Zipcode { get; set; }
 
         public string Country { get; set; }
 

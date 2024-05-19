@@ -16,6 +16,8 @@
 
         public decimal Price { get; set; }
 
+        public DateTime AdvertDate { get; set; }
+
         public int Run { get; set; }
 
         public string City { get; set; }
