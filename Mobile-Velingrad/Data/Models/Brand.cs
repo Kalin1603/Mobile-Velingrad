@@ -15,8 +15,6 @@ namespace Mobile_Velingrad.Data.Models
         [Required]
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
         public virtual ICollection<Model> Models { get; set; }
 
     }

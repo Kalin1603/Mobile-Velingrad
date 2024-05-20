@@ -18,8 +18,6 @@ namespace Mobile_Velingrad.Data.Models
         [MinLength(3)]
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
         [ForeignKey(nameof(Brand))]
         public int BrandId { get; set; }
 

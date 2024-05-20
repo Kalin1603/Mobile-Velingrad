@@ -12,18 +12,24 @@ namespace Mobile_Velingrad.Controllers
 {
     public class MobileVelingradController : Controller
     {
-        private IVehicleService vehiclesService;
+        private readonly IVehicleService _vehiclesService;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
         public MobileVelingradController(IVehicleService vehiclesService, IWebHostEnvironment hostingEnvironment)
         {
-            this.vehiclesService = vehiclesService;
+            _vehiclesService = vehiclesService;
             _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IActionResult> Index(int page = 1)
         {
             List<JsonVehicle> items = await LoadJsonVehiclesAsync();
+
+            foreach (var item in items)
+            {
+                var inputModel = MapToInputViewModel(item);
+                await _vehiclesService.CreateAsync(inputModel);
+            }
 
             var inputModels = items.Select(MapToInputViewModel).ToList();
 
@@ -89,7 +95,7 @@ namespace Mobile_Velingrad.Controllers
                 HasRadioBluetooth = jsonVehicle.HasRadioBluetooth,
                 HasStabilityControl = jsonVehicle.HasStabilityControl,
                 VehicleType = jsonVehicle.VehicleType,
-                AdvertDate = jsonVehicle.AdvertDate 
+                AdvertDate = jsonVehicle.AdvertDate
             };
         }
 

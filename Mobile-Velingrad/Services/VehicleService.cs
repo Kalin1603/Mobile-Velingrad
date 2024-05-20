@@ -140,6 +140,16 @@ namespace Mobile_Velingrad.Services
            await this.appDbContext.SaveChangesAsync();
            await this.UpdateTags(vehicle.Id);
         }
+
+        private async Task<bool> VehicleExistsAsync(VehicleInputViewModel inputModel)
+        {
+            return await this.appDbContext.Vehicles.AnyAsync(v =>
+                v.Model.Name == inputModel.Model &&
+                v.Model.Brand.Name == inputModel.Brand &&
+                v.City.Name == inputModel.City &&
+                v.AdvertDate == inputModel.AdvertDate);
+        }
+
         public async Task<bool> DeleteVehicleAsync(int id)
         {
             var vehicle = await this.appDbContext.Vehicles.FindAsync(id);
