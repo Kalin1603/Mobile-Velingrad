@@ -1,78 +1,109 @@
 ﻿@model Mobile_Velingrad.ViewModels.VehiclesViewModel
 
-<h1 class="text-center">Search by price</h1>
-<form asp-action="SearchByPrice" method="get" class="mb-4">
-    <div class="form-group">
-        <label for="minPrice">Minimum price</label>
-        <input type="number" class="form-control" id="minPrice" name="minPrice" />
-    </div>
-    <div class="form-group">
-        <label for="maxPrice">Maximum price</label>
-        <input type="number" class="form-control" id="maxPrice" name="maxPrice" />
-    </div>
-    <button type="submit" class="btn btn-primary">Търси</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Vehicles</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+    <link rel="stylesheet" href="~/css/cars.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Search by price</h1>
+        </div>
 
-<h1 class="text-center">List of cars</h1>
-<table class="table table-bordered table-hover text-center">
-    <thead>
-        <tr>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Price</th>
-            <th>AdvertDate</th>
-            <th>Mileage</th>
-            <th>Location</th>
-            <th>Tags</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Vehicles)
-        {
-            <tr>
-                <td>@item.Brand</td>
-                <td>@item.Model</td>
-                <td>@item.Price</td>
-                <td>@item.AdvertDate.ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@item.Run</td>
-                <td>@item.City</td>
-                <td>@string.Join(", ", item.Tags)</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <div class="form-section">
+            <form asp-action="SearchByPrice" method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="minPrice">Minimum price</label>
+                            <input type="number" class="form-control" id="minPrice" name="minPrice" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="maxPrice">Maximum price</label>
+                            <input type="number" class="form-control" id="maxPrice" name="maxPrice" />
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Търси</button>
+                </div>
+            </form>
+        </div>
 
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-page="@Model.PreviousPageNumber">
-                <i class="fas fa-caret-left"></i>
-            </a>
-        </li>
-        @for (int i = Model.PageNumber - 2; i < Model.PageNumber; i++)
-        {
-            if (i > 0)
-            {
-                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@i">@i</a></li>
-            }
-        }
-        <li class="page-item active" aria-current="page">
-            <span class="page-link">
-                @Model.PageNumber
-                <span class="sr-only">(current)</span>
-            </span>
-        </li>
-        @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 2; i++)
-        {
-            if (i <= Model.PagesCount)
-            {
-                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@i">@i</a></li>
-            }
-        }
-        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-page="@Model.NextPageNumber">
-                <i class="fas fa-caret-right"></i>
-            </a>
-        </li>
-    </ul>
-</nav>
+        <div class="table-section">
+            <h1 class="text-center">List of cars</h1>
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Price</th>
+                        <th>AdvertDate</th>
+                        <th>Mileage</th>
+                        <th>Location</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Vehicles)
+                    {
+                        <tr>
+                            <td>@item.Brand</td>
+                            <td>@item.Model</td>
+                            <td>@item.Price</td>
+                            <td>@item.AdvertDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@item.Run</td>
+                            <td>@item.City</td>
+                            <td>@string.Join(", ", item.Tags)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@Model.PreviousPageNumber">
+                            <i class="fas fa-caret-left"></i>
+                        </a>
+                    </li>
+                    @for (int i = Model.PageNumber - 2; i < Model.PageNumber; i++)
+                    {
+                        if (i > 0)
+                        {
+                            <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@i">@i</a></li>
+                        }
+                    }
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">
+                            @Model.PageNumber
+                            <span class="sr-only">(current)</span>
+                        </span>
+                    </li>
+                    @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 2; i++)
+                    {
+                        if (i <= Model.PagesCount)
+                        {
+                            <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@i">@i</a></li>
+                        }
+                    }
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@Model.NextPageNumber">
+                            <i class="fas fa-caret-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>
