@@ -1,55 +1,31 @@
 ﻿@model Mobile_Velingrad.ViewModels.Users.DetailsUserViewModel
 
-<h1>User Details</h1>
-<div class="col-lg-8">
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-3">
-                    <label class="mb-0" asp-for="FirstName"></label>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">@Model.FirstName</p>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                    <label class="mb-0" asp-for="LastName"></label>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">@Model.LastName</p>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                    <label class="mb-0" asp-for="NationalId"></label>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">@Model.NationalId</p>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                    <label class="mb-0" asp-for="Address"></label>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">@Model.Address</p>
-                </div>
-            </div>
-            <hr>
-        </div>
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h2>User Details</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-3">First Name</dt>
+            <dd class="col-sm-9">@Model.FirstName</dd>
+
+            <dt class="col-sm-3">Last Name</dt>
+            <dd class="col-sm-9">@Model.LastName</dd>
+
+            <dt class="col-sm-3">National ID</dt>
+            <dd class="col-sm-9">@Model.NationalId</dd>
+
+            <dt class="col-sm-3">Address</dt>
+            <dd class="col-sm-9">@Model.Address</dd>
+        </dl>
     </div>
-    <div>
-        <a class="btn btn-dark" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        @if (User.IsInRole("Administrator"))
-        {
-            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
-            </form>
-        }
-        <a class="btn btn-dark" asp-action="Index">Back to List</a>
+    <div class="col-md-6">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+        </form>
     </div>
 </div>

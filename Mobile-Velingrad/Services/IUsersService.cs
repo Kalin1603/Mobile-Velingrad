@@ -10,5 +10,7 @@ namespace Mobile_Velingrad.Services
         Task<IndexUsersViewModel> GetUsersAsync(IndexUsersViewModel model);
         Task<EditUserViewModel> GetUserToEditAsync(string id);
         Task<DetailsUserViewModel> GetUserDetailsAsync(string id);
+        Task<bool> LoginUserAsync(LoginViewModel loginViewModel);
+        Task<bool> RegisterUserAsync(RegisterViewModel regiserViewModel);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mobile_Velingrad.Data;
 using Mobile_Velingrad.Data.Models;
@@ -11,11 +10,13 @@ namespace Mobile_Velingrad.Services
     {
         private readonly AppDbContext context;
         private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
-        public UsersService(AppDbContext context, UserManager<User> userManager)
+        public UsersService(AppDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             this.context = context;
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         public async Task CreateUserAsync(CreateUserViewModel model)
@@ -133,6 +134,24 @@ namespace Mobile_Velingrad.Services
                 LastName = user.LastName,
                 Address = user.Address
             };
+        }
+
+        public async Task<bool> RegisterUserAsync(RegisterViewModel registerViewModel)
+        {
+            var user = new User
+            {
+                UserName = registerViewModel.Email,
+                Email = registerViewModel.Email
+            };
+
+            var result = await this.userManager.CreateAsync(user, registerViewModel.Password);
+            return result.Succeeded;
+        }
+
+        public async Task<bool> LoginUserAsync(LoginViewModel loginViewModel)
+        {
+            var result = await this.signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, loginViewModel.RememberMe, lockoutOnFailure: false);
+            return result.Succeeded;
         }
     }
 }
