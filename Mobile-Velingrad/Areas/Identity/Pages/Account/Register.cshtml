@@ -1,5 +1,5 @@
 ﻿@page
-@model RegisterModel
+@model Mobile_Velingrad.Areas.Identity.Pages.Account.RegisterModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -19,7 +19,7 @@
                 <h2>Create a New Account</h2>
             </div>
             <div class="card-body p-4">
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <form id="registerForm" asp-page-handler="Register" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
 
                     <div class="form-floating mb-3">
@@ -38,6 +38,30 @@
                         <input asp-for="Input.ConfirmPassword" class="form-control" type="password" autocomplete="new-password" aria-required="true" placeholder="password" />
                         <label asp-for="Input.ConfirmPassword"><i class="bi bi-lock-fill"></i> Confirm Password</label>
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="First Name" />
+                        <label asp-for="Input.FirstName" class="form-label"><i class="bi bi-person"></i> First Name</label>
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="Last Name" />
+                        <label asp-for="Input.LastName" class="form-label"><i class="bi bi-person"></i> Last Name</label>
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.NationalId" class="form-control" aria-required="true" placeholder="National ID" />
+                        <label asp-for="Input.NationalId" class="form-label"><i class="bi bi-card-text"></i> National ID</label>
+                        <span asp-validation-for="Input.NationalId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Address" class="form-control" aria-required="true" placeholder="Address" />
+                        <label asp-for="Input.Address" class="form-label"><i class="bi bi-house"></i> Address</label>
+                        <span asp-validation-for="Input.Address" class="text-danger"></span>
                     </div>
 
                     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary btn-gradient-primary mt-3">

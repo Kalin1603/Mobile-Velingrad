@@ -27,7 +27,8 @@ namespace Mobile_Velingrad.Services
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                NationalId = model.NationalId
+                NationalId = model.NationalId,
+                Address = model.Address
             };
 
             var createResult = await userManager.CreateAsync(user, model.Password);
@@ -141,7 +142,11 @@ namespace Mobile_Velingrad.Services
             var user = new User
             {
                 UserName = registerViewModel.Email,
-                Email = registerViewModel.Email
+                Email = registerViewModel.Email,
+                FirstName = registerViewModel.FirstName,
+                LastName = registerViewModel.LastName,
+                NationalId = registerViewModel.NationalId,
+                Address = registerViewModel.Address
             };
 
             var result = await this.userManager.CreateAsync(user, registerViewModel.Password);

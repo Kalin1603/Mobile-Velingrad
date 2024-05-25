@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mobile_Velingrad.Data;
 using Mobile_Velingrad.Data.Models;
+using Mobile_Velingrad.Importer;
 using Mobile_Velingrad.ViewModels;
 using Newtonsoft.Json;
 
@@ -308,7 +309,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Висок клас автомобил")
+                    Tag = await this.GetOrCreateTag("High class car")
                 });
             }
 
@@ -316,7 +317,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Среден клас автомобил")
+                    Tag = await this.GetOrCreateTag("Mid-range car")
                 });
             }
 
@@ -324,7 +325,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Нисък клас автомобил")
+                    Tag = await this.GetOrCreateTag("A low class car")
                 });
             }
 
@@ -332,7 +333,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Много бърз автомобил")
+                    Tag = await this.GetOrCreateTag("A very fast car")
                 });
             }
 
@@ -340,7 +341,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Бърз автомобил")
+                    Tag = await this.GetOrCreateTag("Fast car")
                 });
             }
 
@@ -348,7 +349,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Средно бърз автомобил")
+                    Tag = await this.GetOrCreateTag("Medium fast car")
                 });
             }
 
@@ -356,7 +357,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Бавен автомобил")
+                    Tag = await this.GetOrCreateTag("Slow car")
                 });
             }
 
@@ -364,7 +365,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Много голям двигател")
+                    Tag = await this.GetOrCreateTag("A very large engine")
                 });
             }
 
@@ -372,7 +373,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Голям двигател")
+                    Tag = await this.GetOrCreateTag("Big engine")
                 });
             }
 
@@ -380,7 +381,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Средно голям двигател")
+                    Tag = await this.GetOrCreateTag("Medium sized engine")
                 });
             }
 
@@ -388,7 +389,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Малък двигател")
+                    Tag = await this.GetOrCreateTag("Small engine")
                 });
             }
 
@@ -396,7 +397,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Голям пробег")
+                    Tag = await this.GetOrCreateTag("Great mileage")
                 });
             }
 
@@ -404,7 +405,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Среден пробег")
+                    Tag = await this.GetOrCreateTag("Average mileage")
                 });
             }
 
@@ -412,7 +413,7 @@ namespace Mobile_Velingrad.Services
             {
                 vehicle.Tags.Add(new TagCars
                 {
-                    Tag = await this.GetOrCreateTag("Малък пробег")
+                    Tag = await this.GetOrCreateTag("Low mileage")
                 });
             }
 

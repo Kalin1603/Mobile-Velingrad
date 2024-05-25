@@ -26,7 +26,7 @@
                 <h2>The Most Expensive Cars</h2>
                 <hr class="my-4">
                 <div class="row">
-                    @foreach (var item in Model.TopExpensive.VehicleViewModels)
+                    @foreach (var item in Model.TopExpensive.VehicleViewModels.Take(3))
                     {
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                             <div class="card h-100">
@@ -47,7 +47,7 @@
                 <h2>The Cheapest Cars</h2>
                 <hr class="my-4">
                 <div class="row">
-                    @foreach (var item in Model.TopCheapest.VehicleViewModels)
+                    @foreach (var item in Model.TopCheapest.VehicleViewModels.Take(3))
                     {
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                             <div class="card h-100">
@@ -68,7 +68,7 @@
                 <h2>Last Added Cars</h2>
                 <hr class="my-4">
                 <div class="row">
-                    @foreach (var item in Model.LastAdded.VehicleViewModels)
+                    @foreach (var item in Model.LastAdded.VehicleViewModels.Take(3))
                     {
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                             <div class="card h-100">
